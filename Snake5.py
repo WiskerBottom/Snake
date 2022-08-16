@@ -1,16 +1,9 @@
-import pygame, random, time
-
-pygame.display.init
+import pygame, random
 
 width=700
 height=700
 screen=pygame.display.set_mode([width, height])
-
-clock = pygame.time.Clock()
-
 run = True
-
-
 snakeX=100
 snakeY=100
 foodX = random.randint(2,10)
@@ -18,22 +11,20 @@ foodY = random.randint(2,10)
 direction="right"
 x = 0
 length = 1
-# length of tail
 possitionpast = [0,0]
 
 while run:
-	#time.sleep(0.1)
 	pygame.time.delay(100)
 	x = x + 1
 	if x == 5:
 		x=0 #this x allows the keys to be polled faster than the screen updates
 
 		counter = 0
-		print("Length of possitionpast/2: " + str(len(possitionpast)/2))
-		print("value of length: " + str(length))
+		#print("Length of possitionpast/2: " + str(len(possitionpast)/2))
+		#print("value of length: " + str(length))
 		#print(possitionpast)
 		while (len(possitionpast)/2) > length:
-			print("Removing past positions")
+			#print("Removing past positions")
 			possitionpast.remove(possitionpast[counter])
 			possitionpast.remove(possitionpast[counter])
 			counter += 2
@@ -68,35 +59,28 @@ while run:
 			#print("possitionpast Y: " + str(possitionpast[y - number * 2]))
 			#print(number)
 			if foodX * 50 == possitionpast[(len(possitionpast)-1) - number * 2] and foodY * 50 == possitionpast[((len(possitionpast)-1)-1) - number * 2]:
-				print("food rerandomizing")
+				#print("food rerandomizing")
 				foodX = random.randint(2,10)
 				foodY = random.randint(2,10)			
 		
-		#print("Length possitionpast: " + str(len(possitionpast)))
-		#print("Length: " + str(length))
-		#if len(possitionpast)-1 > length:
-		#	buffer = []
-		#	for number in range(0,length):
-		#		buffer.append(possitionpast[len(possitionpast)-(length-number)])
-		#	
-		#	print(buffer)
-		#	print(possitionpast)
-		#	exit()
-		
+		if snakeX < 100 or snakeX > 550 or snakeY < 100 or snakeY > 550:
+			print("Out of bounds") 
+			run = False
+
 		for possition in range(0, length):
 
 			screen.fill((0,0,0))
 			pygame.draw.rect(screen, (50,50,50), (100,100,500,500), 0) #Gray Background
-			print("SnakeX: " + str(snakeX))
-			print("SnakeY: " + str(snakeY))
+			#print("SnakeX: " + str(snakeX))
+			#print("SnakeY: " + str(snakeY))
 			pygame.draw.rect(screen, (255,0,0), (snakeX,snakeY,50,50), 0) #Head
 
 			for segment in range(0, length):
 				IdentifierX = possitionpast[(len(possitionpast)-1) - segment * 2]
 				IdentifierY = possitionpast[((len(possitionpast)-1)-1) - segment * 2]
-				print("segmentX: "+ str(IdentifierX))
-				print("segmentY: "+ str(IdentifierY))
-				print("Length: " + str(length))
+				#print("segmentX: "+ str(IdentifierX))
+				#print("segmentY: "+ str(IdentifierY))
+				#print("Length: " + str(length))
 				#print(possitionpast)
 				pygame.draw.rect(screen, (255,255,0), (IdentifierX, IdentifierY,50,50), 0)
 				
@@ -123,7 +107,5 @@ while run:
 		direction = "down"
 
 	pygame.display.update()
-
-
 
 pygame.quit()
